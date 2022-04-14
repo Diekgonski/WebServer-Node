@@ -1,33 +1,39 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+require("dotenv").config();
+const port = process.env.PORT;
+const hbs = require("hbs");
 
-const hbs = require('hbs');
-require('./hbs/helpers');
+//Handlebars
+app.set("view engine", "hbs");
+//Registrar los parciales de handlebar
+hbs.registerPartials(__dirname + "/views/partials", (err) => {});
 
-const port = process.env.PORT || 3000;
+//Mostrar contenido estatico
+app.use(express.static("public"));
 
-app.use(express.static(__dirname + '/public'));
-
-//Express HBS engine
-hbs.registerPartials(__dirname + '/views/parciales');
-app.set('view engine', 'hbs');
-
-app.get('/', function(req, res) {
-
-    res.render('home', {
-        nombre: 'diego'
-    });
-
+//Ruta home
+app.get("/", function (req, res) {
+  res.render("home", {
+    nombre: "Diego",
+    titulo: "Curso de Node",
+  });
 });
 
-app.get('/about', function(req, res) {
+app.get("/generic", function (req, res) {
+  res.render("generic", {
+    nombre: "Diego",
+    titulo: "Curso de Node",
+  });
+});
 
-    res.render('about', {
-
-    });
-
+app.get("/elements", function (req, res) {
+  res.render("elements", {
+    nombre: "Diego",
+    titulo: "Curso de Node",
+  });
 });
 
 app.listen(port, () => {
-    console.log(`Escuchando Peticiones en el puerto ${port}`);
+  console.log(`Escuchando Peticiones en el puerto ${port}`);
 });
